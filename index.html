@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>天使 or ゴキブリ</title>
+
+	<style>
+		body,img,p,h1,h2,div,input{
+			font-family: sans-serif;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			line-height: 1.4;
+			coler: #333;
+		}
+		body{
+			background-color: #E0E0E0;
+		}
+		h1{
+			font-size: 26pt;
+			text-align: center;
+		}
+		h2{
+			color: #666;
+			font-size: 10pt;
+			margin-bottom: 12px;
+			text-align: center;
+		}
+		#box{
+			width: 300px;
+			margin: 16px auto;
+		}
+		#img{
+			padding:16px;
+			background-color: #FFF;
+			vertical-align: bottom;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+			position: relative;
+		}
+
+		#loading{
+			width: 276px;
+			height: 276px;
+			background-color: #666;
+			position: absolute;
+			top: 12px;
+			left: 12px;
+
+		   display: none;
+		}
+
+		#indicator{
+			width: 50px;
+			height: 50px;
+			position: absolute;
+			top: 113px;
+			left: 113px;
+
+			-webkit-animation-name: rotate_wk;
+			-webkit-animation-duration: 1.6s;
+			-webkit-animation-iteration-count: infinite;
+			-webkit-animation-timing-function: linear;
+
+			animation-name: rotate;
+			animation-duration: 1.6s;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+		}
+
+		@-webkit-keyframes rotate_wk{
+		  100%{
+		    -webkit-transform:rotate(360deg);
+		  }
+		}
+
+		@keyframes rotate{
+		  100%{
+		    transform:rotate(360deg);
+		  }
+		}
+
+		#output{
+			width: 100%;
+			margin-bottom: 12px;
+		}
+		#message{
+			color: #F09;
+			font-size: 14pt;
+			font-weight: bold;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="title">
+			<h1 id="title1">天使 or ゴキブリ</h1>
+			<h2 id="title2">あなたの画像を天使かゴキブリかを判断</h2>
+		</div>
+		<div id="img">
+			<img src="img.png" alt="output" id="output">
+			<p id="message"></p>
+			<input type="file" accept="image/*" id="input">
+			<div id="loading">
+				<img src="indicator.png" alt="indicator" id="indicator">
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var title = document.getElementById("title");
+		var title1 = document.getElementById("title1");
+		var title2 = document.getElementById("title2");
+		var message = document.getElementById("message");
+		var output = document.getElementById("output");
+		var input = document.getElementById("input");
+		var loading = document.getElementById("loading");
+		var time;
+
+		input.addEventListener("change",function(){
+			input.style.display = "none";
+			message.innerText = " "
+
+			loading.style.display = "block";
+			output.src = "loadback.png";
+
+			time = setTimeout(setImage,2000);
+		})
+
+		function setImage(){
+			clearTimeout(time);
+
+			loading.style.display = "none";
+
+			output.src = window.URL.createObjectURL(input.files[0]);
+			time = setTimeout(setMessage,200);
+		}
+
+		function setMessage(){
+			clearTimeout(time);
+
+			var p = "この画像は ";
+			var m = ["天使","ゴキブリ"];
+			var s = " です！";
+
+			title1.style.color = "#E0E0E0";
+			title2.style.color = "#E0E0E0";
+
+			message.innerText = p + m[Math.floor(Math.random()*2)] + s;
+		}
+	</script>
+</body>
+</html>
